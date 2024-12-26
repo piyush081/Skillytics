@@ -1,6 +1,7 @@
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import SQLAlchemyError
 from db_connection import SessionLocal
+from schemas.user_skills import UserSkills
 from schemas.users import User
 
 class UserQryManager():
@@ -59,6 +60,26 @@ class UserQryManager():
             db.commit()
 
             return {"message": "User added successfully!"}
+        except SQLAlchemyError as e:
+            db.rollback()
+            return {"error": str(e)}
+        finally:
+            db.close()
+
+    def add_user_skill(user_id: int, skill: str, experience: int):
+        
+        db = SessionLocal()
+        try:
+            user = UserSkills(
+                user_id=user_id,
+                skill = skill,
+                experience = experience
+            )
+
+            db.add(user)
+            db.commit()
+
+            return {"message": "User Skill added successfully!"}
         except SQLAlchemyError as e:
             db.rollback()
             return {"error": str(e)}

@@ -46,3 +46,13 @@ class CoreUtilities():
             update_user=UserQryManager.add_user(username=username, email=email, ip=ip)
             print(update_user)
             return "Welcome"
+        
+    def store_skills(user_details:dict):
+
+        try:
+
+            add_skills=UserQryManager.add_user_skill(user_id=user_details.user_id, skill=user_details.skill_name, experience=user_details.experience_in_months)
+            print(add_skills)
+
+        except Exception as e:
+            print(f"Error retrieving IP: {e}")

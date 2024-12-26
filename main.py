@@ -4,6 +4,7 @@ from sqlalchemy import create_engine, text
 from sqlalchemy.orm import sessionmaker
 from db_connection import engine
 from internal.v1_main import CoreUtilities
+from payload_schema import UserSkills
 from query_manager.users_query_manager import UserQryManager
 
 app = FastAPI()
@@ -23,6 +24,14 @@ async def fetch_user_details():
 async def user_details(username: str, email: Optional[str] = None):
     try:
         user_details = CoreUtilities.get_user_details(username=username, email=email)
+        return user_details
+    except Exception as e:
+        raise e
+
+@app.post("/enter_skills")
+async def user_details(user_details:UserSkills):
+    try:
+        user_details = CoreUtilities.store_skills(user_details=user_details)
         return user_details
     except Exception as e:
         raise e
